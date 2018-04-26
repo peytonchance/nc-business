@@ -1,0 +1,11 @@
+body{
+  color: #ffffff;
+  background: url('Hexagon-2.jpg');
+}
+
+a{
+  color: #111020;
+}
+a:hover{
+  text-decoration: none;
+}

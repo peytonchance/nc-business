@@ -1,0 +1,16 @@
+{% extends "business01/base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <table>
+        {% for business in businesses %}
+          <tr><a href="">{{business.ticker}}</a></tr>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+
+{% endblock %}

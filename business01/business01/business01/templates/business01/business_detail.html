@@ -1,0 +1,24 @@
+{% extends "business01/base.html" %}
+
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="/business01">Home</a></li>
+    <li class="breadcrumb-item active">{{ business.ticker }}</li>
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ business.name }} ({{ business.ticker }})</h2>
+<p>Business Details</p>
+<ul class="detail-list">
+    <li>Market Cap: {{ business.market_cap }}</li>
+    <li>Revenue: {{ business.revenue }}</li>
+    <li>Total Cash: {{ business.total_cash }}</li>
+    <li>Total Debt: {{ business.total_debt }}</li>
+</ul>
+
+<div class="step-links" style="display: flex;justify-content:space-between;">
+<a href="{{ business.id|add:"-1" }}">Previous</a>
+<a href="{{ business.id|add:"1" }}">Next</a>
+</div>
+{% endblock %}

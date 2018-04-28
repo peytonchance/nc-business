@@ -22,3 +22,14 @@ def business(request, pk):
         'business' : business,
     }
     return render(request, "business01/business_detail.html", context)
+
+def api(request):
+    business = request.GET.get('business')
+
+    businesses = models.Business.objects.all()
+
+    data = {
+        "businesses": [w.to_json() for w in businesses],
+    }
+
+    return JsonResponse(data)

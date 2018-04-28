@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('business/', views.business_list, name='businesses-list'),
     path('business/<int:pk>', views.business, name='business_detail'),
+    path('api/', views.api, name="api")
 ]

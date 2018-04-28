@@ -59,6 +59,7 @@ class Command(BaseCommand):
             payout_ratio = row['Payout Ratio']
             year_change = row['52-Week Change']
             short_of_float = row['Short of Float']
+            glassdoor_rating = row['Glassdoor Rating']
 
             # If we don't have this data add the row to the skipped list and
             # continue to the next item in the for loop
@@ -88,6 +89,7 @@ class Command(BaseCommand):
                 payout_ratio = row['Payout Ratio'],
                 year_change = row['52-Week Change'],
                 short_of_float = row['Short of Float'],
+                glassdoor_rating = row['Glassdoor Rating'],
             )
 
             # Now that we have created our dependencies we can create a winner

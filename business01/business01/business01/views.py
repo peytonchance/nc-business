@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from . import models
 
 
-
 def home(request):
     return render(request, "business01/home.html", {
         'businesses': models.Business.objects.all(),

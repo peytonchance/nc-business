@@ -1,35 +1,104 @@
 body{
   color: #000000;
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
 }
 
+svg:not(:root) {
+  overflow: visible!important;
+}
+
+
+h1{
+  font-family: 'Shrikhand', cursive;
+  text-align: center;
+  margin-top: 20px;
+}
+h2{
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+  color: #4B9CD3;
+}
+#pre-map{
+  margin-top: 20%;
+}
 a{
-  color: #111020;
+  color: #4B9CD3;
+  font-family: 'Lato';
 }
 a:hover{
   text-decoration: none;
+  color: #007FAE;
 }
-.bar{
-   fill: steelblue;
- }
-
- .bar:hover{
-   fill: brown;
- }
-
- .axis {
-   font: 10px sans-serif;
- }
-
- .axis path,
- .axis line {
-   fill: none;
-   stroke: #000;
-   shape-rendering: crispEdges;
- }
 
 .bubble{
+  min-height: 50vh;
+  min-width: 50vw;
+  transform: scale(0.7);
+  overflow: visible;
+  margin-top: -76%;
+    margin-left: -10%;
+}
+
+.step-links{
+  margin-top: 10%;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+
+}
+.breadcrumb{
   display: flex;
-  margin: auto;
-  min-height: 90vh;
-  min-width: 98vw;
+    justify-content: center;
+    background: #ffffff;
+}
+.container{
+  box-shadow:0px 5px 25px #A8A8A8;
+  padding: 30px;
+  background: white;
+}
+td, th {
+    border: 2px solid #ffffff;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.footer-nav{
+  margin-top: 10%;
+}
+circle{
+  transition-duration: 1s;
+}
+
+circle:hover{
+  cursor: pointer;
+  transition-duration: 0.5s;
+  transform: scale(.92);
+  color: white!important;
+  fill: lightblue!important;
+}
+
+#map {
+ height: 300px;
+ width: 75%;
+ margin-top: 20px;
+}
+
+.bank{
+  margin-top: -240%;
+  margin-bottom: 3%;
+}
+
+#news{
+  margin-top: 10%;
+  padding-right: 5%;
 }

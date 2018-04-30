@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NC Business Explorer</title>
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro|Shrikhand" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'business01/css/styles.css' %}" />
 
   </head>
   <body>
     {% block body %}
-        <div class="container">
+        <div class="container-fluid">
 
             {% block header %}
                 <div class="row">
@@ -29,12 +30,33 @@
                     </ol>
                 </nav>
             {% endblock %}
+          </div>
+          <div class="container">
             {% block content %}{% endblock %}
         </div>
+            <div class="footer-nav">
+        {% block footer %}
+            <div class="row">
+                <div class="col-12">
+                    <a href="/business01"><h1 class="display-4">NC Business Explorer</h1></a>
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block breadcrumb_nav_footer %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    {% block breadcrumbs_footer %}
+                    {% endblock %}
+                </ol>
+            </nav>
+        {% endblock %}
+      </div>
+
     {% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="http://d3js.org/d3.v5.min.js"></script>
     {% block script %}{% endblock %}
   </body>
 </html>

@@ -11,77 +11,104 @@ config.bubble.render = function (){
   var bizcaps = businesess.map(function(x) {return x.market_cap});
 }
 
-var diameter = 960,
-    format = d3.format(",d"),
-    color = d3.scaleOrdinal(d3.schemeCategory20c);
-
-var bubble = d3.pack()
-    .size([diameter, diameter])
-    .padding(1.5);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble");
-
 data = jsonFix.businesses;
 d = data;
 
-for (i=0; i<data.length; i++){
-  d[i].market_cap = parseInt(d[i].market_cap)
-  console.log(typeof d[i].market_cap)
-}
+d = d.sort(function (a, b) {
+    return (b.market_cap-a.market_cap);
+});
+console.log(d)
 
-var root = d3.hierarchy({businesses: classes})
-    .sum(function(d) { return d.value; })
-    .each(function(d) {
-      if (id = d.data.id) {
-        var id, i = id.lastIndexOf(".");
-        d.id = id;
-        d.package = id.slice(0, i);
-        d.class = id.slice(i + 1);
-      }
-    });
-  bubble(root);
+  // Get data to have numbers instead of strings
+  data.forEach(function(d) {
+    d.market_cap = +d.market_cap
+  });
 
-  // var root = d3.hierarchy(classes(data))
-  //     .sum(function(d) { return d.market_cap; })
-  //     .sort(function(a, b) { return b.market_cap - a.market_cap; });
-  // bubble(root);
+  // Figure out what the scale for the circles should be
+  var MAX_RADIUS = 200
+  var calcRadius = d3.scaleSqrt()
+      .domain(d3.extent(data, function(d){return d.market_cap}))
+      .range([0, MAX_RADIUS]);
 
-  var node = svg.selectAll("#circlybois")
-      .data(data)
+  // Set r for each data
+  data.forEach(function(d) {
+    d.r = calcRadius(d.market_cap)
+  });
+
+
+  var diameter = 960;
+
+  var svg = d3.select(".bubble-div").append("svg") // NOTE your code for this line should be different
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("overflow", "visible")
+      .attr("class", "bubble");
+
+
+  var allCircles = svg.append('g')
+      .attr('class', 'allCircles')
+      .attr('transform', "translate(" + diameter/2 + "," + diameter/2 + ")")
+
+  var node = allCircles.selectAll(".node") // this class should be the same as three lines down
+      .data(d3.packSiblings(data))
       .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        .style("overflow", "hidden")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-  node.append("title")
-      .text(function(d) { return d.name; });
+  var nodeLink = node.append("a")
+    .attr("href", function(d){if((data.indexOf(d)+1) ==16){return "/business01/business/17";}else if((data.indexOf(d)+1) == 17){return "/business01/business/16";}else{ return "/business01/business/" + (data.indexOf(d) + 1) }});
 
-  node.append("circle")
-      .attr("r", function(d) { return Math.sqrt(d.market_cap)/3000; })
-      .style("fill", function(d) {
-        return color(d.name);
-      });
+  nodeLink.append("title")
+      .text(function(d) {
+      if (d.market_cap >= 1000000000){
+        return d.name + " | Market Cap: " + d.market_cap/1000000000 + "B"
+      } else{
+        return d.name + " | Market Cap: " + d.market_cap/1000000 + "M";
+      }});
 
-  node.append("text")
+  nodeLink.append("circle")
+      .attr("r", function(d) { return d.r })
+      .style("fill", "#007FAE")
+
+  nodeLink.append("text")
       .attr("dy", ".1em")
       .style("text-anchor", "middle")
-      .text(function(d) { return d.ticker.substring(0, d.market_cap/100000); });
+      .style("font-size", function(d){ if(d.market_cap >= 5000000000){ return "15px"; }else{ return "0px";}})
+      .text(function(d) { return d.ticker; });
 
+  return svg.node()
 
-// Returns a flattened hierarchy containing all leaf nodes under the root.
-function classes(root) {
-  var classes = [];
+}
 
-  function recurse(name, node) {
-    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-    else classes.push({packageName: name, className: node.name, value: node.size});
+function getBusinessNewsFeed(){
+  var newsUrl = 'https://newsapi.org/v2/everything?' +
+            'sources=business-insider&' +
+            'q=north-carolina&' +
+            'sortBy=popularity&' +
+            'apiKey=' + myNewsKey;
+
+            $.ajax({
+                    type:"GET",
+                    url: newsUrl,
+                    dataType:"json",
+                    success: parseNewsData
+        });
+}
+
+function parseNewsData(newsData){
+  console.log(newsData);
+  var html = "<div>";
+  var html = "<h2>Recent 'Business Insider' Articles ft. North Carolina</h2>"
+  var articles = newsData["articles"];
+
+  for(var i=0, len = 10; i < len; i++){
+    var tempId = articles[i]["title"];
+    html += '<a target="_blank" href="' + articles[i]["url"] + '"><h4>' + articles[i]["title"] + '</h4></a>';
+    html += '<p>' + articles[i]["description"] + '</p>';
   }
-
-  recurse(null, root);
-  return {children: classes};
+   html+= '</div>'
+  $("#news").html(html);
 }
 
-d3.select(self.frameElement).style("height", diameter + "px");
-}
+getBusinessNewsFeed();

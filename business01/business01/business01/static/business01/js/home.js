@@ -6,7 +6,7 @@ function fetchData() {
   // Added business01 to url to make it work
     $.get("/business01/api/" + $.param(window.businesses.params))
         .done(function(data) {
-            $('#raw-json').text(JSON.stringify(data, null, '  '));
+            // $('#raw-json').text(JSON.stringify(data, null, '  '));
             // Add data to global container
             window.businesses.data = data;
 
@@ -31,7 +31,11 @@ function init(){
     // Initialize bar chart
 
     initBar(window.businesses);
+
+
 }
+
+  $('.bubble').addClass('col-md-6');
 
 // Call init on DOMReady
 $(init);
